@@ -107,9 +107,17 @@ RUN chmod a+x /check.sh
 RUN chmod u+x /etc/sudoers && echo "ubuntu    ALL=(ALL:ALL) ALL" >> /etc/sudoers && chmod u-x /etc/sudoers
 RUN apt install -y fcitx fcitx-googlepinyin fcitx-table-wbpy fcitx-pinyin fcitx-sunpinyin
 
-#CMD ["/bin/bash", "/home/ubuntu/startup.sh"]
-CMD /check.sh /eclipse-workspace ; /check.sh /usr/local/eclipse ; /etc/init.d/ssh start ; nohup /home/ubuntu/startup.sh > /tmp/startup.out 2>&1 & sleep 2 ; cat /home/ubuntu/password.txt ; bash
+RUN echo $(date "+%Y-%m-%d_%H:%M:%S") > /.image_time
+RUN echo "land007/cpp-unity-novnc" > /.image_name
+
 EXPOSE 6080 5901 4040
+#CMD ["/bin/bash", "/home/ubuntu/startup.sh"]
+#CMD /check.sh /eclipse-workspace ; /check.sh /usr/local/eclipse ; /etc/init.d/ssh start ; nohup /home/ubuntu/startup.sh > /tmp/startup.out 2>&1 & sleep 2 ; cat /home/ubuntu/password.txt ; bash
+RUN echo "/check.sh /eclipse-workspace" >> /start.sh
+RUN echo "/check.sh /usr/local/eclipse" >> /start.sh
+RUN echo "nohup /home/ubuntu/startup.sh > /tmp/startup.out 2>&1 &" >> /start.sh
+RUN echo "sleep 2" >> /start.sh
+RUN echo "cat /home/ubuntu/password.txt" >> /start.sh
 
 
 #sudo docker exec $CONTAINER_ID cat /home/ubuntu/password.txt
